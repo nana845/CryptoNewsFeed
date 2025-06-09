@@ -1,0 +1,39 @@
+modules = ["python-3.11"]
+
+[nix]
+channel = "stable-24_05"
+
+[workflows]
+runButton = "Project"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Crypto News Bot"
+
+[[workflows.workflow]]
+name = "Crypto News Bot"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "pip install flask feedparser requests googletrans==4.0.0rc1 && python crypto_bot_main.py"
+waitForPort = 5000
+
+[deployment]
+run = ["sh", "-c", "pip install flask feedparser requests googletrans==4.0.0rc1 && python crypto_bot_main.py"]
+
+[[ports]]
+localPort = 3000
+externalPort = 3000
+
+[[ports]]
+localPort = 5000
+
+[[ports]]
+localPort = 8080
+externalPort = 8080
